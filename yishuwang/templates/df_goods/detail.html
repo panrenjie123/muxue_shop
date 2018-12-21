@@ -1,0 +1,91 @@
+{% extends 'df_goods/base_goods.html' %}
+
+{% block title %}
+详情页
+{% endblock %}
+
+{% block content %}
+<div class="main">
+	<div class="container clearfix">
+		<div class="bread">当前位置：
+			<a href="/">首页</a> >
+			<a href="list.html">{{book_detail.types.type_name}}</a> >
+			<a href="detail.html">图书详情</a>
+		</div>
+		<div class="main-left fl clearfix">
+			<div class="zoom-wrap fl">
+				<div id="zoom">
+					<a href="#" title="" class="MagicZoom">
+						<img class="bzoom" src="/static/images/{{book_detail.picture}}" width="300" height="424" />
+					</a>
+				</div>
+			</div>
+			<div class="attr fl">
+				<p>书名：<span>{{book_detail.bookname}}</span></p>
+				<p>所属学校：<span>{{book_detail.university}}</span></p>
+				<p>所属学院：<span>{{book_detail.college}}</span></p>
+				<p>所属专业：<span>{{book_detail.career}}</span></p>
+				<p>所属年级：<span >{{book_detail.grade}}</span></p>
+				<p>库存：<span id="show_count">{{book_detail.number}}</span></p>
+				<p>图书价格：<span>￥{{book_detail.price}}</span></p>
+				<p><a href="javascript:;" class="pay" id="add_cart">加入购物车</a></p>
+			</div>
+			<div class="clearfix"></div>
+			<div class="description clearfix">
+				<h2>发布者描述</h2>
+				<p>{{book_detail.desc}}</p>
+			</div>
+			<div class="description clearfix">
+				<h2>发布者描述</h2>
+				<p>{{book_detail.desc}}</p>
+			</div>
+			<div class="description clearfix">
+				<h2>发布者描述</h2>
+				<p>{{book_detail.desc}}</p>
+			</div>
+		</div>
+		<div class="main-right fr">
+			<h2>同类推荐</h2>
+			<div class="tj">
+				<ul>
+					{% for item in same_books %}
+					<li class="fore1" >
+						<div class="p-img">
+							<a href="/detail_{{item.id}}/"><img height="150" width="auto"  src="/static/images/{{item.picture}}" class=""></a>
+						</div>
+						<div class="p-name">
+							<a href="/detail_{{item.id}}/">{{item.bookname}}</a>
+						</div>
+						<div class="p-price">
+							<strong class="J-p-1701273745">￥{{item.price}}</strong>
+						</div>
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+
+	</div>
+</div>
+{% endblock %}
+
+{% block js %}
+	<script src="/static/js/jquery-1.12.4.min.js"></script>
+	<script>
+		$('#add_cart').click(function () {
+    		//$.get(url,请求的参数，回调函数)
+    		$.get("/add_{{ book_detail.id }}/",function (data) {
+        		//判断用户是否登录
+              	if (data.islogin==0){
+                  	//用户未登录
+                  	location.href = "/user/login/"
+                  	return;
+              	}else {
+                  	//将购物车中的商品种类数添加到购物车页面渲染
+                  	alert(data.msg);
+                  	$('#show_count').html(data.counts);
+              	}
+          	})
+      	})
+	</script>
+{% endblock %}

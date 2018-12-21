@@ -1,0 +1,83 @@
+{% extends 'df_user/base_user_center.html' %}
+
+{% block site %}
+已发布
+{% endblock %}
+{% block content %}
+	<div class="help-r fr">
+		<div class="help-item-title">已发布书籍</div>
+		<div class="help-main">
+			<div class="product-item clearfix">
+				<div class="name fl">
+					<span style="margin-left: 100px">书名</span>
+				</div>
+				<div class="attr fr">
+					<ul class="clearfix">
+						<li>价格</li>
+						<li>发布时间</li>
+						<li style="width: 110px">状态</li>
+					</ul>
+				</div>
+			</div>
+			{% for book in page %}
+			<div class="pro">
+				<div class="product-attr">
+					<div class="product-name fl">
+						<div class="pic-thumb fl"><a href="/detail_{{book.id}}/"  ><img class="middle" src="/static/images/{{book.picture}}"></a></div>
+						<div class="product-title fl">
+							<a href="/detail_{{book.id}}/" class="ellipsis">{{book.bookname}}</a><br>
+							<span>{{book.university.title}}</span>
+							<span>{{book.college.title}}</span>
+							<span>{{book.career.title}}</span>
+							<span>{{book.grade.title}}</span>
+						</div>
+					</div>
+					<div class="product-price fr">
+						<ul class="clearfix">
+							<li>¥{{book.price}}</li>
+							<li>{{book.publish_date | date:"Y-m-d"}}</li>
+							{% if book.number != 0 %}
+							<li class="edit" style="width: 110px">
+								<span>
+									<a href="/publish/edit_{{book.id}}/">
+										<i class="icon-edit"></i>
+										<p>编辑</p>
+									</a>
+								</span>
+								<span class="line"></span>
+								<span>
+									<a href="/publish/delete_{{book.id}}/">
+										<i class="icon-trash"></i>
+										<p>删除</p>
+									</a>
+								</span>
+							</li>
+							{% else %}
+							<li class="edit" style="width: 110px">
+								<span class="sell">已售完...</span>
+							</li>
+							{% endif %}
+						</ul>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+
+			<div class="page clearfix">
+				{% if page.has_previous %}
+				<a href="/publish/published_{{page.number|add:-1}}/"><上一页</a>
+				{% endif %}
+				{% for pg in page_list %}
+					{% if pg == page.number %}
+						<a href="#" class="active">{{pg}}</a>
+					{% else %}
+						<a href="/publish/published_{{pg}}/">{{pg}}</a>
+					{% endif %}
+				{% endfor %}
+				{% if page.has_next %}
+				<a href="/publish/published_{{page.number|add:1}}/">下一页></a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

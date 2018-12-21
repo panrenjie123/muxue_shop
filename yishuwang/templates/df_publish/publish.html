@@ -1,0 +1,229 @@
+{% extends 'df_user/base_user_center.html' %}
+{% block js %}
+	<script type="text/javascript">
+		//图片上传预览    IE是用了滤镜。
+		function previewImage(file)
+		{
+			var MAXWIDTH  = 260;
+			var MAXHEIGHT = 180;
+			var div = document.getElementById('preview');
+			if (file.files && file.files[0])
+			{
+				div.innerHTML ='<img id=imghead>';
+				var img = document.getElementById('imghead');
+				img.onload = function(){
+					var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+					img.width  =  rect.width;
+					img.height =  rect.height;
+//                 img.style.marginLeft = rect.left+'px';
+					img.style.marginTop = rect.top+'px';
+				}
+				var reader = new FileReader();
+				reader.onload = function(evt){img.src = evt.target.result;}
+				reader.readAsDataURL(file.files[0]);
+			}
+			else //兼容IE
+			{
+				var sFilter='filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
+				file.select();
+				var src = document.selection.createRange().text;
+				div.innerHTML = '<img id=imghead>';
+				var img = document.getElementById('imghead');
+				img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
+				var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+				status =('rect:'+rect.top+','+rect.left+','+rect.width+','+rect.height);
+				div.innerHTML = "<div id=divhead style='width:"+rect.width+"px;height:"+rect.height+"px;margin-top:"+rect.top+"px;"+sFilter+src+"\"'></div>";
+			}
+		}
+		function clacImgZoomParam( maxWidth, maxHeight, width, height ){
+			var param = {top:0, left:0, width:width, height:height};
+			if( width>maxWidth || height>maxHeight )
+			{
+				rateWidth = width / maxWidth;
+				rateHeight = height / maxHeight;
+
+				if( rateWidth > rateHeight )
+				{
+					param.width =  maxWidth;
+					param.height = Math.round(height / rateWidth);
+				}else
+				{
+					param.width = Math.round(width / rateHeight);
+					param.height = maxHeight;
+				}
+			}
+
+			param.left = Math.round((maxWidth - param.width) / 2);
+			param.top = Math.round((maxHeight - param.height) / 2);
+			return param;
+		}
+
+		$(function () {
+            //获取所有一级类
+            $.get('/publish/once/', function (dic) {
+                one = $('#one_type')
+                $.each(dic.data, function (index, item) {
+                    one.append('<option value=' + item[0] + '>' + item[1] + '</option>');
+                })
+            })
+            //获取二级类
+            $('#one_type').change(function () {
+                $.get('/publish/second_' + $(this).val() + '/', function (dict) {
+                    two = $('#two_type');
+                    two.empty().append('<option value="">请选择二级类</option>');
+                    $('#three_type').empty().append('<option value="">请选择三级类</option>');
+                    $.each(dict.data, function (index, item) {
+                        two.append('<option value=' + item[0] + '>' + item[1] + '</option>');
+                    })
+                });
+            });
+
+            //获取三级类
+            $('#two_type').change(function () {
+                $.get('/publish/third_' + $(this).val() + '/', function (dict) {
+                    three = $('#three_type');
+                    three.empty().append('<option value="">请选择三级类</option>');
+                    $.each(dict.data, function (index, item) {
+                        three.append('<option value=' + item[1]+ '>' + item[1] + '</option>');
+                    })
+                })
+            });
+        })
+	</script>
+{% endblock %}
+{% block site %}
+发布书籍
+{% endblock %}
+
+{% block content %}
+		<div class="help-r fr">
+			<div class="help-item-title">发布书籍</div>
+			<div class="help-main">
+				<form action="" method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					<div class="product-edit-item clearfix">
+						<div class="product-edit-item-l fl">
+							<div class="fr"><i class="middle">*</i>图书所属大学：</div>
+						</div>
+						<div class="product-edit-item-r fl">
+							<select name="university">
+								<option value="">图书所属大学</option>
+								{% for item in university %}
+								<option value="{{item.title}}">{{item.title}}</option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+					<div class="product-edit-item clearfix">
+						<div class="product-edit-item-l fl">
+							<div class="fr"><i class="middle">*</i>图书所属学院：</div>
+						</div>
+						<div class="product-edit-item-r fl">
+							<select name="college"  >
+								<option value="">图书所属学院</option>
+								{% for item in college %}
+								<option value="{{item.title}}">{{item.title}}</option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+					<div class="product-edit-item clearfix">
+						<div class="product-edit-item-l fl">
+							<div class="fr"><i class="middle">*</i>图书所属专业：</div>
+						</div>
+						<div class="product-edit-item-r fl">
+							<select name="career"  >
+								<option value="">图书所属专业</option>
+								{% for item in career %}
+								<option value="{{item.title}}">{{item.title}}</option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+					<div class="product-edit-item clearfix">
+						<div class="product-edit-item-l fl">
+							<div class="fr"><i class="middle">*</i>图书所属年级：</div>
+						</div>
+						<div class="product-edit-item-r fl">
+							<select name="grade"  >
+								<option value="">图书所属年级</option>
+								{% for item in grade %}
+								<option value="{{item.title}}">{{item.title}}</option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+					<div class="product-edit-item clearfix">
+						<div class="product-edit-item-l fl">
+							<div class="fr"><i class="middle">*</i>图书所属分类：</div>
+						</div>
+						<div class="product-edit-item-r fl">
+							<select id="one_type">
+    							<option value="">请选择一级类</option>
+							</select>
+							<select id="two_type">
+								<option value="">请选择二级类</option>
+							</select>
+							<select id="three_type" name="types">
+								<option value="">请选择三级类</option>
+							</select>
+						</div>
+					</div>
+					<div class="product-edit-item clearfix">
+						<div class="product-edit-item-l fl clearfixc">
+							<div class="fr"><i class="middle">*</i>图书名称：</div>
+						</div>
+						<div class="product-edit-item-r fl">
+							<input type="text" value="福尔摩斯探案全集" style="width: 410px" name="bookname">
+							<p >图书标题名称长度至少3个字符，最长50个汉字</p>
+						</div>
+					</div>
+					<div class="product-edit-item clearfix">
+						<div class="product-edit-item-l fl clearfixc">
+							<div class="fr"><i class="middle">*</i>图书价格：</div>
+						</div>
+						<div class="product-edit-item-r fl">
+							<input type="text" value="150.00" style="width: 60px" name="price"><em class="add-on"><i class="icon-renminbi"></i></em>
+							<p >价格必须是0.01~9999999之间的数字，且不能高于市场价。<br>此价格为图书实际销售价格，如果图书存在规格，该价格显示最低价格。</p>
+						</div>
+					</div>
+					<div class="product-edit-item clearfix">
+						<div class="product-edit-item-l fl clearfixc">
+							<div class="fr"><i class="middle">*</i>图书数量：</div>
+						</div>
+						<div class="product-edit-item-r fl">
+							<input type="number" value="1" style="width: 410px" name="number">
+						</div>
+					</div>
+					<div class="product-edit-item clearfix">
+						<div class="product-edit-item-l fl clearfixc">
+							<div class="fr"><i class="middle">*</i>图书描述：</div>
+						</div>
+						<div class="product-edit-item-r fl">
+							<textarea name="desc"  cols="30" rows="10"></textarea>
+							<p >请如实描述你所发布书籍的详细情况，以方便其他会员购买！</p>
+						</div>
+					</div>
+					<div class="product-edit-item clearfix">
+						<div class="product-edit-item-l fl clearfixc">
+							<div class="fr"><i class="middle">*</i>上传封面：</div>
+						</div>
+						<div class="product-edit-item-r fl">
+							<div id="preview">
+								<img id="imghead" border=0 src="/static/images/book.jpg" />
+							</div>
+							<input type="file" onchange="previewImage(this)" name="picture"/>
+							<p >请上传图书封面，尽量保持图片清晰</p>
+						</div>
+					</div>
+					<div class="product-edit-item clearfix">
+						<div class="product-edit-item-l fl clearfixc" style="border: none;border-top:1px solid #E6E6E6">
+						</div>
+						<div class="product-edit-item-r fl" style="border: none;border-top:1px solid #E6E6E6">
+						</div>
+					</div>
+					<div class="upload"><label><input type="submit" value="点击发布"></label></div>
+				</form>
+			</div>
+		</div>
+{% endblock %}

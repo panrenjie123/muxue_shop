@@ -1,0 +1,66 @@
+{% extends 'df_user/base_user_center.html' %}
+
+{% block site %}
+个人信息
+{% endblock %}
+
+{% block content %}
+	<div class="help-r fr">
+		<div class="help-item-title">个人信息</div>
+		<div class="help-main">
+			<form action="" method="post">
+				{% csrf_token %}
+				<p>
+					<span class="nice">用户名：</span>
+					<span>{{userinfo.username}}</span>
+				</p>
+				<p>
+					<span class="nice">昵称：</span>
+					<input type="text" value="{{userinfo.nickname}}" name="nickname">
+				</p>
+				<p>
+					<span class="nice">联系电话：</span>
+					<input type="text" value="{{userinfo.phone}}" name="phone">
+				</p>
+				<p>
+					<span class="nice">大学：</span>
+					<select name="university">
+						<option value="{{userinfo.university.title}}">{{userinfo.university.title}}</option>
+						{% for item in university %}
+						<option value="{{item.title}}">{{item.title}}</option>
+						{% endfor %}
+					</select>
+				</p>
+				<p>
+					<span class="nice">学院：</span>
+					<select name="college">
+						<option value="{{userinfo.college.title}}">{{userinfo.college.title}}</option>
+						{% for item in college %}
+						<option value="{{item.title}}">{{item.title}}</option>
+						{% endfor %}
+					</select>
+				</p>
+				<p>
+					<span class="nice">专业：</span>
+					<select name="career">
+						<option value="{{userinfo.career.title}}">{{userinfo.career.title}}</option>
+						{% for item in career %}
+						<option value="{{item.title}}">{{item.title}}</option>
+						{% endfor %}
+					</select>
+				</p>
+				<p>
+					<span class="nice">年级：</span>
+					<select name="grade">
+						<option value="{{userinfo.grade}}">{{userinfo.grade}}</option>
+						<option value="大一">大一</option>
+						<option value="大二">大二</option>
+						<option value="大三">大三</option>
+						<option value="大四">大四</option>
+					</select>
+				</p>
+				<input class="save" type="submit" value="修改"/>
+			</form>
+		</div>
+	</div>
+{% endblock %}

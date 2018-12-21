@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>易书网——注册页面</title>
+<link rel="stylesheet" type="text/css" href="/static/css/index.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/animate-custom.css" />
+</head>
+<body style="background: #fff url(/static/images/bg.jpg) repeat top left;">
+
+<div id="container_demo" >
+	<div id="wrapper">
+		<div class="animate form">
+			<form  action="" autocomplete="on" method="post">
+				{% csrf_token %}
+				<h1>注册</h1>
+				<p>
+					<label for="usernamesignup" class="uname" data-icon="u">用户名</label>
+					<input id="usernamesignup" name="usernamesignup" required="required" type="text" placeholder="用户名"/>
+				    <span class="error_tip"></span>
+                </p>
+
+				<p>
+					<label for="tel" class="youmail">联系电话</label>
+					<input id="tel" name="phonesignup" required="required" type="tel" placeholder="联系电话"/>
+				</p>
+				<p>
+					<label>你的大学</label>
+					<select name="university_signup" id="college" >
+						<option value="">请选择你的大学</option>
+						{% for item in university %}
+						<option value="{{item.title}}">{{item.title}}</option>
+						{% endfor %}
+					</select>
+				</p>
+				<p>
+					<label>你的学院</label>
+					<select name="college_signup" id="academy">
+						<option value="">请选择你的学院</option>
+						{% for item in college %}
+						<option value="{{item.title}}">{{item.title}}</option>
+						{% endfor %}
+					</select>
+				</p>
+				<p>
+					<label>你的专业</label>
+					<select name="career_signup" id="special" >
+						<option value="">请选择你的专业</option>
+						{% for item in career %}
+						<option value="{{item.title}}">{{item.title}}</option>
+						{% endfor %}
+					</select>
+				</p>
+				<p>
+					<label for="passwordsignup" class="youpasswd" data-icon="p">密码</label>
+					<input id="passwordsignup" name="passwordsignup" required="required" type="password" placeholder="密码"/>
+				</p>
+				<p>
+					<label for="passwordsignup_confirm" class="youpasswd" data-icon="p">确认密码</label>
+					<input id="passwordsignup_confirm" name="passwordsignup_confirm" required="required" type="password" placeholder="确认密码"/>
+				    <span class="error_tip"></span>
+                </p>
+				<p class="signin button">
+					<input type="submit" value="注册"/>
+				</p>
+
+				<p class="change_link">
+					已经是成员?<a href="/user/login/" class="to_register"> 去登录 </a>
+				</p>
+			</form>
+		</div>
+
+	</div>
+
+</div>
+<script src="/static/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('#usernamesignup').blur(function(){
+            var username = $('#usernamesignup').val();
+            $.get("/user/check/",{"username":username},function(data){
+                if (data.result == 'ok'){
+                    $('#usernamesignup').next().html('用户名已存在')
+                    $('#usernamesignup').next().show();
+                    return;
+                    $('#usernamesignup').next().hide();
+                }else{
+                    $('#usernamesignup').next().hide()
+                }
+            })
+        })
+
+        $('#passwordsignup_confirm').blur(function(){
+            var pwd = $('#passwordsignup').val();
+            var cpwd = $('#passwordsignup_confirm').val();
+            if (pwd!=cpwd){
+                $('#passwordsignup_confirm').next().html('两次输入的密码不一致')
+                $('#passwordsignup_confirm').next().show();
+                $('#passwordsignup').val("")
+                $('#passwordsignup_confirm').val("")
+                return;
+            }else{
+                $('#passwordsignup_confirm').next().hide();
+            }
+        })
+    })
+
+</script>
+</body>
+</html>

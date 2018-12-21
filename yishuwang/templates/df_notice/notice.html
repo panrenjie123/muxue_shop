@@ -1,0 +1,119 @@
+{% extends 'df_goods/base_goods.html' %}
+
+{% block title %}
+公告
+{% endblock %}
+
+{% block content %}
+<div class="mainbody" style="background: #FFF url(/static/images/bodybg.png) repeat-x;">
+	<div class="container clearfix" style="background-color: white">
+		<div class="mainbody_topbg"></div>
+		<div class="bread">当前位置：
+			<a href="/">首页</a> >
+			<a href="#">公告</a>
+		</div>
+		<div class="maincontent fl">
+			{% for item in page %}
+			<div class="post">
+				<h2><a href="/notice/notice_detail_{{item.id}}/">{{item.title}}</a></h2>
+				<div class="postdata">
+					<div class="date">{{item.update_time | date:"Y-m-d H:i:s"}}</div>
+					<div class="cate">发表于 <a href="/notice/notice_1/">公告</a> | </div>
+					<div class="cate">浏览量: <span>{{item.browers_number}}</span>次</div>
+				</div>
+				<div class="content">
+					{{item.desc | safe}}
+				</div>
+			</div>
+			{% endfor %}
+			<div class="page clearfix">
+				{% if page.has_previous %}
+				<a href="/notice/notice_{{page.number|add:-1}}/"><上一页</a>
+				{% endif %}
+				{% for pg in page_list %}
+					{% if pg == page.number %}
+						<a href="#" class="active">{{pg}}</a>
+					{% else %}
+						<a href="/notice/notice_{{pg}}/">{{pg}}</a>
+					{% endif %}
+				{% endfor %}
+				{% if page.has_next %}
+				<a href="/notice/notice_{{page.number|add:1}}/">下一页></a>
+				{% endif %}
+			</div>
+		</div>
+		<div class="sidebar fr">
+			<ul>
+				<li>
+					<h2>最新公告</h2>
+					<ul>
+						{% for item in new_notices %}
+						<li><a href="/notice/notice_detail_{{item.id}}/">{{item.title}}</a></li>
+						{% endfor %}
+					</ul>
+				</li>
+				<li>
+					<h2>公告存档</h2>
+					<select  style="width: 130px;margin-top: 10px;">
+						<option value="">选择月份</option>
+						<option> 2015年八月 </option>
+						<option> 2015年七月 </option>
+						<option> 2015年六月 </option>
+						<option> 2015年五月 </option>
+						<option> 2015年四月 </option>
+						<option> 2015年三月 </option>
+						<option> 2015年二月 </option>
+						<option> 2015年一月 </option>
+						<option> 2014年十二月 </option>
+						<option> 2014年十一月 </option>
+						<option> 2014年十月 </option>
+						<option> 2014年九月 </option>
+						<option> 2014年八月 </option>
+						<option> 2014年七月 </option>
+						<option> 2014年六月 </option>
+						<option> 2014年五月 </option>
+						<option> 2014年四月 </option>
+						<option> 2014年三月 </option>
+						<option> 2014年二月 </option>
+						<option> 2014年一月 </option>
+						<option> 2013年十二月 </option>
+						<option> 2013年十一月 </option>
+						<option> 2013年十月 </option>
+						<option> 2013年九月 </option>
+						<option> 2013年八月 </option>
+						<option> 2013年七月 </option>
+						<option> 2013年六月 </option>
+						<option> 2013年五月 </option>
+						<option> 2013年四月 </option>
+						<option> 2013年三月 </option>
+						<option> 2013年二月 </option>
+						<option> 2013年一月 </option>
+						<option> 2012年十二月 </option>
+						<option> 2012年十一月 </option>
+						<option> 2012年十月 </option>
+						<option> 2012年九月 </option>
+						<option> 2012年八月 </option>
+						<option> 2011年九月 </option>
+						<option> 2011年八月 </option>
+						<option> 2011年七月 </option>
+						<option> 2011年六月 </option>
+						<option> 2011年四月 </option>
+						<option> 2011年三月 </option>
+						<option> 2011年二月 </option>
+						<option> 2011年一月 </option>
+						<option> 2010年十二月 </option>
+						<option> 2010年十月 </option>
+						<option> 2010年九月 </option>
+						<option> 2010年八月 </option>
+						<option> 2010年七月 </option>
+						<option> 2010年六月 </option>
+						<option> 2010年五月 </option>
+					</select>
+				</li>
+			</ul>
+			<div class="custom_ads"></div>
+		</div>
+		<div class="mainbody_bottombg"></div>
+	</div>
+</div>
+{% endblock %}

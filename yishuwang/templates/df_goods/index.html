@@ -1,0 +1,241 @@
+{% extends 'df_goods/base_goods.html' %}
+
+{% block style %}
+	<style>
+		.swiper-container {
+			width: 1100px;
+			height: 300px;
+			margin: 0 auto;
+		}
+	</style>
+{% endblock %}
+
+{% block title %}
+	易书网
+{% endblock %}
+
+{% block content %}
+<div class="banner container">
+	<img src="/static/images/notice.png" alt="" style="width: 1200px;height: auto;"/>
+	<div class="clearfix">
+		<div class="about fl">
+			<h1>易书网</h1>
+			<img src="/static/images/logo9.png" alt=""/>
+			<p><span>易书网</span>是一个网上书商城。力求打造网上最大的中文图书借换系统二手书交换系统力求打造是是网上最大的中文图书借换系统二手书交换系统。易书网来了,让爱书的你花极小的支出(1到2元)就可以读到你喜欢的书且没有后顾之忧哦！</p>
+		</div>
+		<div id="fsD1" class="focus fl">
+			<div id="D1pic1" class="fPic">
+				<div class="fcon">
+					<a href="/detail_{{item.id}}/"><img src="/static/images/focus1.jpg" /></a>
+					<span class="shadow"><a href="/detail_{{item.id}}/">便宜出售一本好书111111</a></span>
+				</div>
+				<div class="fcon">
+					<a href="/detail_{{item.id}}/"><img src="/static/images/focus2.jpg" /></a>
+					<span class="shadow"><a href="/detail_{{item.id}}/">便宜出售一本好书222222</a></span>
+				</div>
+				<div class="fcon">
+					<a href="/detail_{{item.id}}/"><img src="/static/images/focus3.jpg" /></a>
+					<span class="shadow"><a href="/detail_{{item.id}}/">便宜出售一本好书3333333</a></span>
+				</div>
+				<div class="fcon">
+					<a href="/detail_{{item.id}}/"><img src="/static/images/focus4.jpg" /></a>
+					<span class="shadow"><a href="/detail_{{item.id}}/">便宜出售一本好书4444444</a></span>
+				</div>
+				<div class="fcon">
+					<a href="/detail_{{item.id}}/"><img src="/static/images/focus5.jpg" /></a>
+					<span class="shadow"><a href="/detail_{{item.id}}/">便宜出售一本好书5555555</a></span>
+				</div>
+			</div>
+
+			<div class="fbg">
+				<div class="D1fBt" id="D1fBt">
+					<a href="javascript:void(0)" class="current"><i>1</i></a>
+					<a href="javascript:void(0)"><i>2</i></a>
+					<a href="javascript:void(0)"><i>3</i></a>
+					<a href="javascript:void(0)"><i>4</i></a>
+					<a href="javascript:void(0)"><i>5</i></a>
+				</div>
+			</div>
+		</div>
+		<div class="help fr">
+			<h2><a href="/notice/notice_1/">最新公告</a></h2>
+			<ul>
+				{% for item in new_notices %}
+					<li><a href="/notice/notice_detail_{{item.id}}/">{{item.title| truncatechars:15}}</a></li>
+				{% endfor %}
+			</ul>
+			<h2><a href="/notice/help/">新手帮助</a></h2>
+			<ul>
+				<li><a href="/notice/help/">如何买书</a></li>
+				<li><a href="/notice/help/">如何买书</a></li>
+				<li><a href="/notice/help/">如何买书</a></li>
+				<li><a href="/notice/help/">如何买书</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="item clearfix" id="item1">
+		<h1>教材区<span></span>
+			<!--<a href="list.html">+更多</a>-->
+		</h1>
+		<div class="list fl">
+			<ul class="one">
+				{% for item in data %}
+				<li><a href="#">{{item.second.type_name}}</a>
+					<ul class="two">
+						{% for name in item.third_list %}
+						<li><a href="/list_{{name.id}}_1/">{{name.type_name}}</a></li>
+						{% endfor %}
+					</ul>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+
+		<div class="book-wrap fr">
+			<div class="book clearfix">
+				{% for item in education_books %}
+				<dl>
+					<dt><a href="/detail_{{item.id}}/"><img src="/static/images/{{item.picture}}" alt=""/></a></dt>
+					<dd>
+						<p><a href="/detail_{{item.id}}/">{{item.bookname}}</a></p>
+						<p>数量：{{item.number}}</p>
+						<p><s>价格：￥{{item.price}}</s> ￥{{item.price}}</p>
+					</dd>
+				</dl>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+	<div class="item clearfix" id="item2">
+		<h1>工具书区<span></span></h1>
+		<ul class="tab clearfix">
+			<li><a class="on" href="javascript:void(0)">英语四六级资料</a></li>
+			<li><a href="javascript:void(0)">公务员资料</a></li>
+			<li><a href="javascript:void(0)">考研资料</a></li>
+			<li><a href="javascript:void(0)">雅思托福</a></li>
+			<li><a href="javascript:void(0)">其他</a></li>
+		</ul>
+		<div class="tab0 tabs clearfix">
+			<div class="book clearfix">
+				{% for item in reference_books_yingyu %}
+				<dl>
+					<dt><a href="/detail_{{item.id}}/"><img src="/static/images/{{item.picture}}" alt=""/></a></dt>
+					<dd>
+						<p><a href="/detail_{{item.id}}/">{{item.bookname}}</a></p>
+						<p>数量：{{item.number}}</p>
+						<p><s>价格：￥{{item.price}}</s> ￥{{item.price}}</p>
+					</dd>
+				</dl>
+				{% endfor %}
+			</div>
+		</div>
+		<div class="tab1 tabs hide clearfix">
+			<div class="book clearfix">
+				{% for item in reference_books_gongwu %}
+				<dl>
+					<dt><a href="/detail_{{item.id}}/"><img src="/static/images/{{item.picture}}" alt=""/></a></dt>
+					<dd>
+						<p><a href="/detail_{{item.id}}/">{{item.bookname}}</a></p>
+						<p>数量：{{item.number}}</p>
+						<p><s>价格：￥{{item.price}}</s> ￥{{item.price}}</p>
+					</dd>
+				</dl>
+				{% endfor %}
+			</div>
+
+		</div>
+		<div class="tab2 tabs hide clearfix">
+			<div class="book clearfix">
+				{% for item in reference_books_kaiyan %}
+				<dl>
+					<dt><a href="/detail_{{item.id}}/"><img src="/static/images/{{item.picture}}" alt=""/></a></dt>
+					<dd>
+						<p><a href="/detail_{{item.id}}/">{{item.bookname}}</a></p>
+						<p>数量：{{item.number}}</p>
+						<p><s>价格：￥{{item.price}}</s> ￥{{item.price}}</p>
+					</dd>
+				</dl>
+				{% endfor %}
+			</div>
+
+		</div>
+		<div class="tab3 tabs hide clearfix">
+			<div class="book clearfix">
+				{% for item in reference_books_yasi %}
+				<dl>
+					<dt><a href="/detail_{{item.id}}/"><img src="/static/images/{{item.picture}}" alt=""/></a></dt>
+					<dd>
+						<p><a href="/detail_{{item.id}}/">{{item.bookname}}</a></p>
+						<p>数量：{{item.number}}</p>
+						<p><s>价格：￥{{item.price}}</s> ￥{{item.price}}</p>
+					</dd>
+				</dl>
+				{% endfor %}
+
+			</div>
+
+		</div>
+		<div class="tab4 tabs hide clearfix">
+			<div class="book clearfix">
+				{% for item in reference_books_qita %}
+				<dl>
+					<dt><a href="/detail_{{item.id}}/"><img src="/static/images/{{item.picture}}" alt=""/></a></dt>
+					<dd>
+						<p><a href="/detail_{{item.id}}/">{{item.bookname}}</a></p>
+						<p>数量：{{item.number}}</p>
+						<p><s>价格：￥{{item.price}}</s> ￥{{item.price}}</p>
+					</dd>
+				</dl>
+				{% endfor %}
+
+			</div>
+
+		</div>
+	</div>
+	<div class="item clearfix" id="item3">
+		<h1>分享区<span></span></h1>
+		<div class="tabs book clearfix">
+			{% for item in recommended_books %}
+				<dl>
+					<dt><a href="/detail_{{item.id}}/"><img src="/static/images/{{item.picture}}" alt=""/></a></dt>
+					<dd>
+						<p><a href="/detail_{{item.id}}/">{{item.bookname}}</a></p>
+						<p>数量：{{item.number}}</p>
+						<p><s>价格：￥{{item.price}}</s> ￥{{item.price}}</p>
+					</dd>
+				</dl>
+			{% endfor %}
+		</div>
+	</div>
+
+</div>
+{% endblock %}
+{% block js %}
+<div class="fixnav">
+	<ul>
+		<li><a href="#" title="1">教材区</a></li>
+		<li><a href="#" title="2">工具书区</a></li>
+		<li><a href="#" title="3">分享区</a></li>
+		<li><a href="#" title="4">返回顶部</a></li>
+		<li><a  href="http://wpa.qq.com/msgrd?v=3&uin=2078140086&site=qq&menu=yes">联系客服</a></li>
+	</ul>
+</div>
+<script type="text/javascript">
+	Qfast.add('widgets', { path: "/static/js/terminator2.2.min.js", type: "js", requires: ['fx'] });
+	Qfast(false, 'widgets', function () {
+		K.tabs({
+			id: 'fsD1',   //焦点图包裹id
+			conId: "D1pic1",  //** 大图域包裹id
+			tabId:"D1fBt",
+			tabTn:"a",
+			conCn: '.fcon', //** 大图域配置class
+			auto: 1,   //自动播放 1或0
+			effect: 'fade',   //效果配置
+			eType: 'click', //** 鼠标事件
+			pageBt:true,//是否有按钮切换页码
+			bns: ['.prev', '.next'],//** 前后按钮配置class
+			interval: 3000  //** 停顿时间
+		})
+	})
+</script>
+{% endblock %}

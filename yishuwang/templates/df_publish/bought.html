@@ -1,0 +1,71 @@
+{% extends 'df_user/base_user_center.html' %}
+
+{% block site %}
+已买书籍
+{% endblock %}
+
+{% block content %}
+		<div class="help-r fr">
+			<div class="help-item-title">已买书籍</div>
+			<div class="help-main">
+				<div class="product-item clearfix">
+					<div class="name fl">
+						<span style="margin-left: 150px">书名</span>
+					</div>
+					<div class="attr fr">
+						<ul class="clearfix">
+							<li>价格</li>
+							<li>买入时间</li>
+							<li style="width: 110px">状态</li>
+						</ul>
+					</div>
+				</div>
+				{% for item in page %}
+				<div class="pro">
+					<div class="product-attr">
+						<div class="product-name fl">
+							<div class="pic-thumb fl"><a href="/detail_{{item.books.id}}/"  ><img class="middle" src="/static/images/{{item.books.picture}}"></a></div>
+							<div class="product-title fl" style="width: 320px;">
+								<a href="/detail_{{item.books.id}}/" class="ellipsis">{{item.books.bookname}}</a><br>
+								<span>{{item.books.university.title}}</span>
+								<span>{{item.books.college.title}}</span>
+								<span>{{item.books.career.title}}</span>
+								<span>{{item.books.grade.title}}</span>
+							</div>
+						</div>
+						<div class="product-price fr">
+							<ul class="clearfix">
+								<li>¥{{item.total}}</li>
+								<li>{{item.create_time | date:"Y-m-d"}}</li>
+								<li class="edit" style="width: 110px">
+									{% if item.pay_status == 'paying' %}
+										<span class="cancel"><a href="#">待支付</a></span>
+									{% elif item.pay_status == 'success' %}
+										<span class="sell">交易完成</span>
+									{% elif item.pay_status == 'close' %}
+										<span class="sell">超时关闭</span>
+									{% endif %}
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+				<div class="page clearfix">
+					{% if page.has_previous %}
+					<a href="/publish/bought_{{page.number|add:-1}}/"><上一页</a>
+					{% endif %}
+					{% for pg in page_list %}
+						{% if pg == page.number %}
+							<a href="#" class="active">{{pg}}</a>
+						{% else %}
+							<a href="/publish/bought_{{pg}}/">{{pg}}</a>
+						{% endif %}
+					{% endfor %}
+					{% if page.has_next %}
+					<a href="/publish/bought_{{page.number|add:1}}/">下一页></a>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+{% endblock %}

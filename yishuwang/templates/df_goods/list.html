@@ -1,0 +1,90 @@
+{% extends 'df_goods/base_goods.html' %}
+
+{% block title %}
+列表页
+{% endblock %}
+
+{% block content %}
+<div class="list-main">
+	<div class="container">
+		<div class="bread" style="margin-bottom: 0;">当前位置：
+			<a href="/">首页</a> >
+			<a href="#">列表</a>
+		</div>
+		<ul class="select">
+			<li class="select-list">
+				<dl id="select1">
+					<dt>学校：</dt>
+					<dd class="select-all selected"><a href="#">全部</a></dd>
+					{% for item in university %}
+					<dd><a href="#">{{item.title}}</a></dd>
+					{% endfor %}
+				</dl>
+			</li>
+			<li class="select-list">
+				<dl id="select2">
+					<dt>学院：</dt>
+					<dd class="select-all selected"><a href="#">全部</a></dd>
+					{% for item in college %}
+					<dd><a href="#">{{item.title}}</a></dd>
+					{% endfor %}
+				</dl>
+			</li>
+			<li class="select-list">
+				<dl id="select3">
+					<dt>专业：</dt>
+					<dd class="select-all selected"><a href="#">全部</a></dd>
+					{% for item in career %}
+					<dd><a href="#">{{item.title}}</a></dd>
+					{% endfor %}
+				</dl>
+			</li>
+			<li class="select-list">
+				<dl id="select4">
+					<dt>年级：</dt>
+					<dd class="select-all selected"><a href="#">全部</a></dd>
+					{% for item in grade %}
+					<dd><a href="#">{{item.title}}</a></dd>
+					{% endfor %}
+				</dl>
+			</li>
+			<li class="select-result">
+				<dl>
+					<dt>已选条件：</dt>
+					<dd class="select-no">暂时没有选择过滤条件</dd>
+				</dl>
+			</li>
+		</ul>
+		<div class="tabs book clearfix">
+			{% for item in page %}
+			<dl>
+				<dt><a href="/detail_{{item.id}}/"><img src="/static/images/{{item.picture}}" alt=""/></a></dt>
+				<dd>
+					<p><a href="/detail_{{item.id}}/">{{item.bookname}}</a></p>
+					<p>数量：{{item.number}}</p>
+					<p><s>价格：￥{{item.price}}</s> ￥{{item.price}}</p>
+				</dd>
+
+			</dl>
+			{% endfor %}
+			<div class="clearfix"></div>
+			<div class="page clearfix">
+				{% if page.has_previous %}
+				<a href="/list_{{tid}}_{{page.number|add:-1}}/"><上一页</a>
+				{% endif %}
+				{% for pg in page_list %}
+					{% if pg == page.number %}
+						<a href="#" class="active">{{pg}}</a>
+					{% else %}
+						<a href="/list_{{tid}}_{{pg}}/">{{pg}}</a>
+					{% endif %}
+				{% endfor %}
+				{% if page.has_next %}
+				<a href="/list_{{tid}}_{{page.number|add:1}}/">下一页></a>
+				{% endif %}
+			</div>
+		</div>
+
+	</div>
+</div>
+{% endblock %}
